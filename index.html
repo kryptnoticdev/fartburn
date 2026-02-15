@@ -8,15 +8,14 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 
-    <!-- Social preview / OG tags -->
-    <meta property="og:title" content="FARTBURN - COMMAND TERMINAL">
+    <meta property="og:title" content="FARTBURN - BURN TERMINAL">
     <meta property="og:description" content="The ultimate auto-buy & auto-burn bot for $FARTBURN on Solana. Press F to fart 💨">
     <meta property="og:image" content="https://fartburn.vercel.app/og-image.png">
     <meta property="og:url" content="https://fartburn.vercel.app/">
     <meta property="og:type" content="website">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="FARTBURN - COMMAND TERMINAL">
+    <meta name="twitter:title" content="FARTBURN - BURN TERMINAL">
     <meta name="twitter:description" content="The ultimate auto-buy & auto-burn bot for $FARTBURN on Solana. Press F to fart 💨">
     <meta name="twitter:image" content="https://fartburn.vercel.app/og-image.png">
     <title>$FARTBURN - BURN TERMINAL</title>
@@ -29,7 +28,7 @@
             background: #000;
             color: #00ff00;
             font-family: 'VT323', monospace;
-            font-size: 18px;
+            font-size: 20px;
             overflow: hidden;
             image-rendering: pixelated;
         }
@@ -58,7 +57,7 @@
             background: #00aa00;
             color: #000;
             padding: 4px 10px;
-            font-size: 20px;
+            font-size: 30px;
             text-align: center;
             margin-bottom: 15px;
             text-shadow: 2px 2px 0 #fff;
@@ -96,7 +95,7 @@
             border: none;
             color: #00ff00;
             font-family: 'VT323', monospace;
-            font-size: 18px;
+            font-size: 30px;
             outline: none;
             flex: 1;
             caret-color: #00ff00;
@@ -124,7 +123,7 @@
 </head>
 <body>
     <div class="terminal">
-        <div class="titlebar">FARTBURN TERMINAL — [SOLANA MAINNET] — PRESS F TO FART</div>
+        <div class="titlebar">FARTBURN TERMINAL — v1.0.42069 — PRESS F TO FART</div>
         
         <div id="output"></div>
         
@@ -136,7 +135,6 @@
 
     <div class="crt"></div>
 
-    <!-- Figlet for giant banner -->
     <script src="https://cdn.jsdelivr.net/npm/figlet@1.7.0/lib/figlet.js"></script>
 
 <script>
@@ -145,7 +143,7 @@
 
     const CONTRACT = "Coming Soon!";
 
-    // === MULTIPLE FART SOUNDS ===
+
     const fartFiles = [
         "fart1.mp3",
         "fart2.mp3",
@@ -158,9 +156,9 @@
     function playRandomFart() {
         const randomFile = fartFiles[Math.floor(Math.random() * fartFiles.length)];
         const audio = new Audio(randomFile);
-        audio.volume = 0.4;           // 0.0 to 1.0 — adjust as needed
+        audio.volume = 0.4; 
         audio.currentTime = 0;
-        audio.play().catch(() => {}); // silent fail if autoplay blocked
+        audio.play().catch(() => {}); 
     }
 
     function print(text, className = "", isHTML = false) {
@@ -176,7 +174,6 @@
         output.appendChild(line);
         output.scrollTop = output.scrollHeight;
 
-        // Play random fart on every print
         playRandomFart();
     }
 
@@ -192,7 +189,6 @@
             print("Type 'help' for commands. Press F to fart.");
         }
 
-        // Show giant FARTBURN banner using Figlet
         function showBanner() {
             figlet("FARTBURN", { font: "Big" }, (err, data) => {
                 if (err) {
@@ -206,10 +202,9 @@
             });
         }
 
-        // Connect to your buy/autoclaim bot WebSocket
         let botWS;
         function connectToBot() {
-            botWS = new WebSocket("wss://loveburns.ngrok.app");  // Change to wss://your-domain if deployed
+            botWS = new WebSocket("wss://loveburns.ngrok.app"); 
 
             botWS.onopen = () => {
                 print("💨 Connected to Buy & Auto-Burn Bot");
@@ -229,7 +224,6 @@
             };
         }
 
-        // Your existing commands
         const commands = {
             help: () => {
                 print("Available commands:");
@@ -300,14 +294,14 @@
             if (commands[cmd]) {
                 commands[cmd]();
             } else if (cmd === "") {
-                // do nothing
+
             } else {
                 print(`'${cmd}' is not recognized as a fart command.`);
                 print("Type 'help' for a list of stinky commands.");
             }
         }
 
-        // Easter egg: Press F anywhere
+
         document.addEventListener('keydown', (e) => {
             if (e.key.toLowerCase() === 'f') {
                 const fartLines = [
@@ -320,7 +314,7 @@
             }
         });
 
-        // Input handling
+
         input.addEventListener('keydown', (e) => {
             if (e.key === "Enter") {
                 const cmd = input.value;
@@ -329,15 +323,15 @@
             }
         });
 
-        // Auto-focus input
+
         setTimeout(() => {
             input.focus();
         }, 500);
 
-        // Start everything
+
         bootSequence();
-        setTimeout(showBanner, 1000);      // Show giant banner after boot
-        setTimeout(connectToBot, 2000);     // Connect to bot after banner
+        setTimeout(showBanner, 1000);     
+        setTimeout(connectToBot, 2000);    
     </script>
 
 </body>
