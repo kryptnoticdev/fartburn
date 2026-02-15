@@ -226,61 +226,91 @@
 
         const commands = {
             help: () => {
+                print("======================================");
                 print("Available commands:");
-                print("  about          — What is $FARTBURN?");
+                print("  about          — What the hell is Fartburn?");
+                print("  buy            — Buy $FARTBURN (Pump.fun)");
                 print("  ca             — Copy contract address");
-                print("  roadmap        — Future of burns");
-                print("  socials        — Join the stink");
-                print("  buy            — Buy $FARTBURN");
+                print("  clear          — Clear screen");
                 print("  fart           — Test the gas");
                 print("  moon           — Simulate liftoff");
-                print("  clear          — Clear screen");
+                print("  roadmap        — Future of burns");
+                print("  socials        — Join the stink");
+                print("  team           — Meet the team");
+                print("======================================");
             },
             about: () => {
+                print("======================================");
                 print("$Fartburn is a pure meme coin on Solana.");
                 print("Burning 50% of creator rewards automatically");
                 print("");
                 print("Born from pure chaos.");
                 print("'Burn it all. Fart freely.'");
-
+                print("======================================");
             },
             ca: () => {
+                print("======================================");
                 print("Contract Address: Coming Soon");
                 print(`  ${CONTRACT}`);
                 print("");
                 print("Copied to clipboard!");
                 navigator.clipboard.writeText(CONTRACT);
+                print("======================================");
             },
 
             roadmap: () => {
+                print("======================================");
                 print("Phase 1: Launch (done)");
                 print("Phase 2: Auto-buy & burn activated");
                 print("Phase 3: Make normies say 'what is this shit'");
                 print("Phase 4: Burns every minute → MOON");
                 print("Phase 5: ???");
                 print("Phase 6: Profit (probably not)");
+                print("======================================");
             },
             socials: () => {
+    print("======================================");
     print("Twitter   → <a href='https://x.com/Fartburncoin' target='_blank' style='color:#00ff00; text-decoration:underline;'>https://x.com/Fartburncoin</a>", "", true);
     print("Website   → <a href='https://fartburn.fun' target='_blank' style='color:#00ff00; text-decoration:underline;'>https://fartburn.fun</a>", "", true);
     print("Telegram  → <a href='https://t.me/fartburn' target='_blank' style='color:#00ff00; text-decoration:underline;'>search @fartburn (official community)</a>", "", true);
     print("");
     print("Come stink with us.");
+    print("======================================");
 },
+
+            team: () => {
+    print("======================================");
+    print("Kryptnotic    → <a href='https://x.com/kryptnoticdev' target='_blank' style='color:#00ff00; text-decoration:underline;'>@KryptnoticDev</a>", "", true);
+    print("Groyal        → <a href='https://x.com/groyalsol' target='_blank' style='color:#00ff00; text-decoration:underline;'>@Groyalsol</a>", "", true);
+    print("Joey          → <a href='https://x.com/joeysessi0ns' target='_blank' style='color:#00ff00; text-decoration:underline;'>@JoeySessi0ns</a>", "", true);
+    print("AmericanAlpha → <a href='https://x.com/american_a7622' target='_blank' style='color:#00ff00; text-decoration:underline;'>@american_a7622</a>", "", true);
+    print("RuggedMan     → <a href='https://x.com/theruggeddev' target='_blank' style='color:#00ff00; text-decoration:underline;'>@TheRuggedDev</a>", "", true);
+    print("Fernandez     → <a href='https://x.com/marcfernan55771' target='_blank' style='color:#00ff00; text-decoration:underline;'>@Marcfernan55771</a>", "", true);
+    print("Z             → <a href='https://x.com/zakub4u' target='_blank' style='color:#00ff00; text-decoration:underline;'>@zakub4u</a>", "", true);
+    print("Troy          → <a href='https://x.com/kryptnoticdev' target='_blank' style='color:#00ff00; text-decoration:underline;'>@KryptnoticDev</a>", "", true);
+    print("======================================");
+},
+
             buy: () => {
+                print("======================================");
                 print("Opening pump.fun in new tab...");
                 setTimeout(() => {
                     window.open(`https://pump.fun/coin/${CONTRACT}`, "_blank");
                 }, 800);
+                print("======================================");
             },
             fart: () => {
+                print("======================================");
                 print("💨💨💨💨💨💨💨💨💨💨", "fart");
                 print(" *PFFFFFFFFFFFFFFFT* ", "fart");
                 print("💨💨💨💨💨💨💨💨💨💨", "fart");
+                print("======================================");
             },
             moon: () => {
+                print("======================================");
                 print("🚀🚀🚀 TO THE MOON 🚀🚀🚀");
                 print("Warning: may cause severe bagholding");
+                print("======================================");
             },
             clear: () => {
                 output.innerHTML = "";
