@@ -1,0 +1,65 @@
+import {
+  getAssociatedTokenAddressSync,
+  createBurnInstruction,
+  createCloseAccountInstruction,
+  TOKEN_2022_PROGRAM_ID
+} from "@solana/spl-token";
+import { Transaction } from "@solana/web3.js";
+import { logger } from "./logger.js";
+
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+export async function burnTokens(connection, wallet, mintPubkey) {
+  const ata = getAssociatedTokenAddressSync(
+    mintPubkey,
+    wallet.publicKey,
+    false,
+    TOKEN_2022_PROGRAM_ID
+  );
+
+
+  let info = null;
+  for (let i = 0; i < 6; i++) {
+    info = await connection.getAccountInfo(ata);
+    if (info) break;
+
+    logger.error(`$FARTBURN ATA not found, retry ${i + 1}/6`);
+    await sleep(3000);
+  }
+
+  if (!info) {
+    logger.error("$FARTBURN ATA never appeared, skipping burn");
+    return;
+  }
+
+  const balance = await connection.getTokenAccountBalance(ata);
+  const amount = BigInt(balance.value.amount);
+
+  if (amount === 0n) {
+    logger.info("Token balance zero, skipping burn");
+    return;
+  }
+
+  logger.success(`Burning ${balance.value.uiAmount} $FARTBURN coins`);
+
+  const tx = new Transaction().add(
+    createBurnInstruction(
+      ata,
+      mintPubkey,
+      wallet.publicKey,
+      amount,
+      [],
+      TOKEN_2022_PROGRAM_ID
+    ),
+    createCloseAccountInstruction(
+      ata,
+      wallet.publicKey,
+      wallet.publicKey,
+      [],
+      TOKEN_2022_PROGRAM_ID
+    )
+  );
+
+  await connection.sendTransaction(tx, [wallet]);
+  logger.success("$FARTBURN tech burn completed");
+}
