@@ -18,6 +18,9 @@
     <meta name="twitter:title" content="FARTBURN - BURN TERMINAL">
     <meta name="twitter:description" content="The ultimate auto-buy & auto-burn bot for $FARTBURN on Solana. Press F to fart 💨">
     <meta name="twitter:image" content="https://fartburn.vercel.app/og-image.png">
+    <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@1.95.3/lib/index.iife.min.js"></script>
+    <!-- Optional: for better number formatting -->
+    <script src="https://cdn.jsdelivr.net/npm/bignumber.js@9.1.2/bignumber.min.js"></script>
     <title>$FARTBURN - BURN TERMINAL</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
@@ -119,12 +122,64 @@
             25% { transform: translateX(-4px); }
             75% { transform: translateX(4px); }
         }
+
+        .burn-stats {
+            position: fixed;
+            top: 85px;          /* Adjust if titlebar overlaps */
+            right: 40px;
+            background: rgba(0, 20, 0, 0.85);  /* Dark semi-transparent for terminal feel */
+            border: 2px solid #00ff00;
+            border-radius: 6px;
+            padding: 8px 14px;
+            color: #00ff00;
+            font-size: 22px;
+            font-weight: bold;
+            z-index: 100;       /* Above everything else */
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+            pointer-events: none;  /* Doesn't block clicks underneath */
+            text-shadow: 0 0 5px #00ff00;
+            white-space: nowrap;
+        }
+
+        .burn-stats .label {
+            color: #00cc00;
+            margin-right: 6px;
+        }
+
+        .burn-stats #burn-amount {
+            color: #ff00ff;     /* Purple for emphasis */
+            font-size: 26px;
+        }
+
+        .burn-stats .flame {
+            margin-left: 8px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50%      { opacity: 0.6; }
+        }
+
+        /* Optional: subtle update animation */
+        .burn-stats.updated {
+            animation: flash 0.6s;
+        }
+
+        @keyframes flash {
+            0%, 100% { background: rgba(0, 20, 0, 0.85); }
+            50%      { background: rgba(0, 80, 0, 0.95); }
+        }
     </style>
 </head>
 <body>
     <div class="terminal">
         <div class="titlebar">FARTBURN TERMINAL — v1.0.42069 — PRESS F TO FART</div>
-        
+        <div id="burn-stats" class="burn-stats">
+            <span class="label">TOTAL BURNT:</span>
+            <span id="burn-amount">0</span> $FARTBURN
+            <span class="flame">🔥💨</span>
+        </div>
         <div id="output"></div>
         
         <div class="prompt-line">
@@ -137,45 +192,44 @@
 
     <script src="https://cdn.jsdelivr.net/npm/figlet@1.7.0/lib/figlet.js"></script>
 
-<script>
-    const output = document.getElementById('output');
-    const input = document.getElementById('input');
+    <script>
+        const output = document.getElementById('output');
+        const input = document.getElementById('input');
 
-    const CONTRACT = "Coming Soon!";
+        const CONTRACT = "Coming Soon!";
 
+        const fartFiles = [
+            "fart1.mp3",
+            "fart2.mp3",
+            "fart3.mp3",
+            "fart4.mp3",
+            "fart5.mp3",
+            "fart6.mp3"
+        ];
 
-    const fartFiles = [
-        "fart1.mp3",
-        "fart2.mp3",
-        "fart3.mp3",
-        "fart4.mp3",
-        "fart5.mp3",
-        "fart6.mp3"
-    ];
-
-    function playRandomFart() {
-        const randomFile = fartFiles[Math.floor(Math.random() * fartFiles.length)];
-        const audio = new Audio(randomFile);
-        audio.volume = 0.4; 
-        audio.currentTime = 0;
-        audio.play().catch(() => {}); 
-    }
-
-    function print(text, className = "", isHTML = false) {
-        const line = document.createElement('div');
-        if (className) line.className = className;
-        
-        if (isHTML) {
-            line.innerHTML = text;
-        } else {
-            line.textContent = text;
+        function playRandomFart() {
+            const randomFile = fartFiles[Math.floor(Math.random() * fartFiles.length)];
+            const audio = new Audio(randomFile);
+            audio.volume = 0.4; 
+            audio.currentTime = 0;
+            audio.play().catch(() => {}); 
         }
-        
-        output.appendChild(line);
-        output.scrollTop = output.scrollHeight;
 
-        playRandomFart();
-    }
+        function print(text, className = "", isHTML = false) {
+            const line = document.createElement('div');
+            if (className) line.className = className;
+            
+            if (isHTML) {
+                line.innerHTML = text;
+            } else {
+                line.textContent = text;
+            }
+            
+            output.appendChild(line);
+            output.scrollTop = output.scrollHeight;
+
+            playRandomFart();
+        }
 
         function bootSequence() {
             print("Microsoft Fart Systems [Version 1.0.42069]");
@@ -265,31 +319,31 @@
                 print("Phase 3: Make normies say 'what is this shit'");
                 print("Phase 4: Burns every minute → MOON");
                 print("Phase 5: ???");
-                print("Phase 6: Profit (probably not)");
+                print("Phase 6: Profit (probably just farts)");
                 print("======================================");
             },
             socials: () => {
-    print("======================================");
-    print("Twitter   → <a href='https://x.com/Fartburncoin' target='_blank' style='color:#00ff00; text-decoration:underline;'>https://x.com/Fartburncoin</a>", "", true);
-    print("Website   → <a href='https://fartburn.fun' target='_blank' style='color:#00ff00; text-decoration:underline;'>https://fartburn.fun</a>", "", true);
-    print("Telegram  → <a href='https://t.me/fartburn' target='_blank' style='color:#00ff00; text-decoration:underline;'>search @fartburn (official community)</a>", "", true);
-    print("");
-    print("Come stink with us.");
-    print("======================================");
-},
+                print("======================================");
+                print("Twitter   → <a href='https://x.com/Fartburncoin' target='_blank' style='color:#00ff00; text-decoration:underline;'>https://x.com/Fartburncoin</a>", "", true);
+                print("Website   → <a href='https://fartburn.fun' target='_blank' style='color:#00ff00; text-decoration:underline;'>https://fartburn.fun</a>", "", true);
+                print("Telegram  → <a href='https://t.me/fartburn' target='_blank' style='color:#00ff00; text-decoration:underline;'>https://t.me/fartburn</a>", "", true);
+                print("");
+                print("Come stink with us.");
+                print("======================================");
+            },
 
             team: () => {
-    print("======================================");
-    print("Kryptnotic    → <a href='https://x.com/kryptnoticdev' target='_blank' style='color:#00ff00; text-decoration:underline;'>@KryptnoticDev</a>", "", true);
-    print("Groyal        → <a href='https://x.com/groyalsol' target='_blank' style='color:#00ff00; text-decoration:underline;'>@Groyalsol</a>", "", true);
-    print("Joey          → <a href='https://x.com/joeysessi0ns' target='_blank' style='color:#00ff00; text-decoration:underline;'>@JoeySessi0ns</a>", "", true);
-    print("AmericanAlpha → <a href='https://x.com/american_a7622' target='_blank' style='color:#00ff00; text-decoration:underline;'>@American_a7622</a>", "", true);
-    print("RuggedMan     → <a href='https://x.com/theruggeddev' target='_blank' style='color:#00ff00; text-decoration:underline;'>@TheRuggedDev</a>", "", true);
-    print("Fernandez     → <a href='https://x.com/marcfernan55771' target='_blank' style='color:#00ff00; text-decoration:underline;'>@Marcfernan55771</a>", "", true);
-    print("Z             → <a href='https://x.com/zakub4u' target='_blank' style='color:#00ff00; text-decoration:underline;'>@Zakub4u</a>", "", true);
-    print("Troy          → <a href='https://x.com/duckboy28' target='_blank' style='color:#00ff00; text-decoration:underline;'>@Duckboy28</a>", "", true);
-    print("======================================");
-},
+                print("======================================");
+                print("Kryptnotic    → <a href='https://x.com/kryptnoticdev' target='_blank' style='color:#00ff00; text-decoration:underline;'>@KryptnoticDev</a>", "", true);
+                print("Groyal        → <a href='https://x.com/groyalsol' target='_blank' style='color:#00ff00; text-decoration:underline;'>@Groyalsol</a>", "", true);
+                print("Joey          → <a href='https://x.com/joeysessi0ns' target='_blank' style='color:#00ff00; text-decoration:underline;'>@JoeySessi0ns</a>", "", true);
+                print("AmericanAlpha → <a href='https://x.com/american_a7622' target='_blank' style='color:#00ff00; text-decoration:underline;'>@American_a7622</a>", "", true);
+                print("RuggedMan     → <a href='https://x.com/theruggeddev' target='_blank' style='color:#00ff00; text-decoration:underline;'>@TheRuggedDev</a>", "", true);
+                print("Fernandez     → <a href='https://x.com/marcfernan55771' target='_blank' style='color:#00ff00; text-decoration:underline;'>@Marcfernan55771</a>", "", true);
+                print("Z             → <a href='https://x.com/zakub4u' target='_blank' style='color:#00ff00; text-decoration:underline;'>@Zakub4u</a>", "", true);
+                print("Troy          → <a href='https://x.com/duckboy28' target='_blank' style='color:#00ff00; text-decoration:underline;'>@Duckboy28</a>", "", true);
+                print("======================================");
+            },
 
             buy: () => {
                 print("======================================");
@@ -331,7 +385,6 @@
             }
         }
 
-
         document.addEventListener('keydown', (e) => {
             if (e.key.toLowerCase() === 'f') {
                 const fartLines = [
@@ -344,7 +397,6 @@
             }
         });
 
-
         input.addEventListener('keydown', (e) => {
             if (e.key === "Enter") {
                 const cmd = input.value;
@@ -353,16 +405,97 @@
             }
         });
 
-
         setTimeout(() => {
             input.focus();
         }, 500);
 
-
         bootSequence();
         setTimeout(showBanner, 1000);     
         setTimeout(connectToBot, 2000);    
-    </script>
 
+        // ────────────────────────────────────────────────
+        // Burn Tracker - Fetch from Solana Blockchain
+        // ────────────────────────────────────────────────
+        // CONFIG – CHANGE THESE
+        // ────────────────────────────────────────────────
+        // ────────────────────────────────────────────────
+// Burn Tracker - Fetch from Solana Blockchain
+// ────────────────────────────────────────────────
+// CONFIG – CHANGE THESE
+// ────────────────────────────────────────────────
+const TOKEN_MINT = "9BB6NFEcjBCtnNLFko2FqVQBq8HHM13kCyYcdQbgpump";  // Confirmed $FARTBURN mint from Solscan/pump.fun
+const INITIAL_SUPPLY = 1000000000;                          // Standard pump.fun: 1B tokens – confirm on Solscan if different
+const DECIMALS = 6;                                         // Standard for most pump.fun memes
+const RPC_ENDPOINT = "https://solana-rpc.publicnode.com";         // ← Reliable free public RPC (Ankr)
+const UPDATE_INTERVAL_MS = 15000;                           // 15 seconds
+
+// ────────────────────────────────────────────────
+const connection = new solanaWeb3.Connection(RPC_ENDPOINT, "confirmed");
+const mintPubkey = new solanaWeb3.PublicKey(TOKEN_MINT);
+
+        const burnAmountEl = document.getElementById("burn-amount");
+        const burnStatsEl = document.getElementById("burn-stats");
+
+        let previousBurnt = 0;
+
+async function fetchBurnedAmount() {
+    try {
+        console.log("Fetching mint info for:", TOKEN_MINT); // debug
+        const mintInfo = await connection.getParsedAccountInfo(mintPubkey);
+        console.log("Mint response:", mintInfo); // debug – check browser console (F12)
+
+        if (!mintInfo.value) {
+            throw new Error("Mint account not found – check TOKEN_MINT address");
+        }
+
+        const parsed = mintInfo.value.data.parsed;
+        if (!parsed || parsed.type !== "mint") {
+            throw new Error("Not a valid mint account");
+        }
+
+        const supplyRaw = parsed.info.supply;
+        const currentSupply = Number(supplyRaw) / (10 ** DECIMALS);
+
+        const burnt = INITIAL_SUPPLY - currentSupply;
+
+        if (Math.abs(burnt - previousBurnt) > 0.0001) {
+            previousBurnt = burnt;
+
+            if (burnAmountEl) {
+                burnAmountEl.textContent = burnt.toLocaleString(undefined, {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 2
+                });
+            }
+
+            if (burnStatsEl) {
+                burnStatsEl.classList.add("updated");
+                setTimeout(() => burnStatsEl.classList.remove("updated"), 800);
+            }
+
+            if (burnt > previousBurnt) {
+                print(`🔥 Chain update: ${burnt.toLocaleString()} $FARTBURN burnt total!`, "fart");
+            }
+        }
+    } catch (err) {
+        console.error("Burn fetch failed:", err.message || err);
+        if (burnAmountEl) {
+            burnAmountEl.textContent = "Fetch Error";
+        }
+        // Optional: show in terminal once
+        if (!window.burnErrorLogged) {
+            print(`[ERROR] Burn tracker failed: ${err.message || "Unknown RPC issue"} – check console (F12)`, "fart");
+            window.burnErrorLogged = true;
+        }
+    }
+}
+
+        // Initial fetch + periodic updates
+        fetchBurnedAmount();
+        setInterval(fetchBurnedAmount, UPDATE_INTERVAL_MS);
+
+        // Set initial state
+        if (burnAmountEl) burnAmountEl.textContent = "0";
+    </script>
 </body>
 </html>
