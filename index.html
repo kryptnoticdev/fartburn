@@ -206,16 +206,93 @@
                 font-size: 16px; /* Smaller input font */
             }
 
-            .burn-stats {
-                top: 60px; /* Lower to avoid title overlap */
-                right: 10px; /* Closer to edge */
-                font-size: 18px; /* Smaller overall */
-                padding: 6px 10px; /* Compact padding */
-            }
+.burn-stats {
+    position: fixed;
+    top: 85px;
+    right: 40px;
+    background: rgba(0, 20, 0, 0.85);
+    border: 2px solid #00ff00;
+    border-radius: 6px;
+    padding: 8px 14px;
+    color: #00ff00;
+    font-size: 22px;
+    font-weight: bold;
+    z-index: 100;
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+    pointer-events: none;
+    text-shadow: 0 0 5px #00ff00;
+    white-space: nowrap;
+    transition: all 0.3s ease; /* Smooth changes on resize */
+}
 
-            .burn-stats #burn-amount {
-                font-size: 20px; /* Adjust amount size */
-            }
+.burn-stats .label {
+    color: #00cc00;
+    margin-right: 6px;
+}
+
+.burn-stats #burn-amount {
+    color: #ff00ff;
+    font-size: 26px;
+}
+
+.burn-stats .flame {
+    margin-left: 8px;
+    animation: pulse 2s infinite;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    .burn-stats {
+        /* Move to bottom-right on mobile – less overlap with title/input */
+        top: auto;
+        bottom: 90px;               /* Above prompt line + keyboard space */
+        right: 15px;                /* Closer to edge */
+        left: auto;
+        font-size: 18px;            /* Smaller text */
+        padding: 6px 12px;
+        border-width: 1px;          /* Thinner border */
+        border-radius: 8px;         /* Slightly rounder for touch feel */
+        box-shadow: 0 0 10px rgba(0, 255, 0, 0.4); /* Softer glow */
+        background: rgba(0, 20, 0, 0.92); /* Slightly more opaque for visibility */
+        max-width: 80vw;            /* Prevent overflow on tiny screens */
+        white-space: normal;        /* Allow wrapping if very long number */
+        text-align: center;
+    }
+
+    .burn-stats .label {
+        display: block;             /* Stack label on new line for readability */
+        margin-right: 0;
+        margin-bottom: 2px;
+        font-size: 16px;
+    }
+
+    .burn-stats #burn-amount {
+        font-size: 22px;            /* Still prominent but not huge */
+    }
+
+    .burn-stats { 
+        right: 10px; 
+        left: 10px; 
+        bottom: 80px; 
+        text-align: center;
+    }
+
+    /* Optional: Make it full-width centered at bottom if you prefer */
+    /* .burn-stats { right: 10px; left: 10px; bottom: 80px; text-align: center; } */
+}
+
+/* Extra small screens (e.g., old phones) */
+@media (max-width: 480px) {
+    .burn-stats {
+        font-size: 16px;
+        padding: 5px 10px;
+        bottom: 100px; /* More space for keyboard */
+    }
+
+    .burn-stats #burn-amount {
+        font-size: 20px;
+    }
+}
 
             .crt {
                 background-size: 100% 2px; /* Finer scanlines for mobile DPI */
