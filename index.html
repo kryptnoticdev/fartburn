@@ -32,7 +32,7 @@
             color: #00ff00;
             font-family: 'VT323', monospace;
             font-size: 20px;
-            overflow: hidden;
+            overflow: auto; /* Changed to auto for mobile scrolling */
             image-rendering: pixelated;
         }
 
@@ -48,12 +48,14 @@
 
         .terminal {
             width: 100vw;
-            height: 100vh;
+            min-height: 100vh; /* min-height for mobile flexibility */
             padding: 20px;
             box-sizing: border-box;
             border: 8px solid #00ff00;
             background: #000;
             position: relative;
+            display: flex; /* Use flex for better internal layout */
+            flex-direction: column;
         }
 
         .titlebar {
@@ -67,7 +69,7 @@
         }
 
         #output {
-            height: calc(100vh - 180px);
+            flex: 1; /* Grow to fill space instead of fixed calc */
             overflow-y: auto;
             white-space: pre-wrap;
             line-height: 1.3;
@@ -125,18 +127,18 @@
 
         .burn-stats {
             position: fixed;
-            top: 85px;          /* Adjust if titlebar overlaps */
+            top: 85px;
             right: 40px;
-            background: rgba(0, 20, 0, 0.85);  /* Dark semi-transparent for terminal feel */
+            background: rgba(0, 20, 0, 0.85);
             border: 2px solid #00ff00;
             border-radius: 6px;
             padding: 8px 14px;
             color: #00ff00;
             font-size: 22px;
             font-weight: bold;
-            z-index: 100;       /* Above everything else */
+            z-index: 100;
             box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
-            pointer-events: none;  /* Doesn't block clicks underneath */
+            pointer-events: none;
             text-shadow: 0 0 5px #00ff00;
             white-space: nowrap;
         }
@@ -147,7 +149,7 @@
         }
 
         .burn-stats #burn-amount {
-            color: #ff00ff;     /* Purple for emphasis */
+            color: #ff00ff;
             font-size: 26px;
         }
 
@@ -161,7 +163,6 @@
             50%      { opacity: 0.6; }
         }
 
-        /* Optional: subtle update animation */
         .burn-stats.updated {
             animation: flash 0.6s;
         }
@@ -169,6 +170,62 @@
         @keyframes flash {
             0%, 100% { background: rgba(0, 20, 0, 0.85); }
             50%      { background: rgba(0, 80, 0, 0.95); }
+        }
+
+        /* Mobile responsive fixes */
+        @media (max-width: 768px) {
+            body {
+                font-size: 16px; /* Smaller base font */
+                overflow-y: auto; /* Ensure scrolling */
+            }
+
+            .terminal {
+                padding: 10px; /* Reduce padding for more space */
+                border-width: 4px; /* Thinner border */
+            }
+
+            .titlebar {
+                font-size: 24px; /* Smaller title */
+                padding: 4px 6px;
+                margin-bottom: 10px;
+            }
+
+            #output {
+                padding-right: 10px; /* Less right padding */
+            }
+
+            #output::-webkit-scrollbar {
+                width: 8px; /* Thinner scrollbar */
+            }
+
+            .prompt-line {
+                margin-top: 4px;
+            }
+
+            #input {
+                font-size: 16px; /* Smaller input font */
+            }
+
+            .burn-stats {
+                top: 60px; /* Lower to avoid title overlap */
+                right: 10px; /* Closer to edge */
+                font-size: 18px; /* Smaller overall */
+                padding: 6px 10px; /* Compact padding */
+            }
+
+            .burn-stats #burn-amount {
+                font-size: 20px; /* Adjust amount size */
+            }
+
+            .crt {
+                background-size: 100% 2px; /* Finer scanlines for mobile DPI */
+                box-shadow: inset 0 0 40px rgba(0,255,0,0.3); /* Softer glow */
+            }
+
+            /* Fix virtual keyboard issues – add space at bottom */
+            .terminal {
+                padding-bottom: 200px; /* Extra space for keyboard pop-up */
+            }
         }
     </style>
 </head>
@@ -418,77 +475,72 @@
         // ────────────────────────────────────────────────
         // CONFIG – CHANGE THESE
         // ────────────────────────────────────────────────
-        // ────────────────────────────────────────────────
-// Burn Tracker - Fetch from Solana Blockchain
-// ────────────────────────────────────────────────
-// CONFIG – CHANGE THESE
-// ────────────────────────────────────────────────
-const TOKEN_MINT = "9BB6NFEcjBCtnNLFko2FqVQBq8HHM13kCyYcdQbgpump";  // Confirmed $FARTBURN mint from Solscan/pump.fun
-const INITIAL_SUPPLY = 1000000000;                          // Standard pump.fun: 1B tokens – confirm on Solscan if different
-const DECIMALS = 6;                                         // Standard for most pump.fun memes
-const RPC_ENDPOINT = "https://solana-rpc.publicnode.com";         // ← Reliable free public RPC (Ankr)
-const UPDATE_INTERVAL_MS = 15000;                           // 15 seconds
+        const TOKEN_MINT = "9BB6NFEcjBCtnNLFko2FqVQBq8HHM13kCyYcdQbgpump";  // Confirmed $FARTBURN mint from Solscan/pump.fun
+        const INITIAL_SUPPLY = 1000000000;                          // Standard pump.fun: 1B tokens – confirm on Solscan if different
+        const DECIMALS = 6;                                         // Standard for most pump.fun memes
+        const RPC_ENDPOINT = "https://solana-rpc.publicnode.com";         // ← Reliable free public RPC (Ankr)
+        const UPDATE_INTERVAL_MS = 15000;                           // 15 seconds
 
-// ────────────────────────────────────────────────
-const connection = new solanaWeb3.Connection(RPC_ENDPOINT, "confirmed");
-const mintPubkey = new solanaWeb3.PublicKey(TOKEN_MINT);
+        // ────────────────────────────────────────────────
+        const connection = new solanaWeb3.Connection(RPC_ENDPOINT, "confirmed");
+        const mintPubkey = new solanaWeb3.PublicKey(TOKEN_MINT);
 
         const burnAmountEl = document.getElementById("burn-amount");
         const burnStatsEl = document.getElementById("burn-stats");
 
         let previousBurnt = 0;
 
-async function fetchBurnedAmount() {
-    try {
-        console.log("Fetching mint info for:", TOKEN_MINT); // debug
-        const mintInfo = await connection.getParsedAccountInfo(mintPubkey);
-        console.log("Mint response:", mintInfo); // debug – check browser console (F12)
+        async function fetchBurnedAmount() {
+            try {
+                console.log("Fetching mint info for:", TOKEN_MINT); // debug
+                const mintInfo = await connection.getParsedAccountInfo(mintPubkey);
+                console.log("Mint response:", mintInfo); // debug – check browser console (F12)
 
-        if (!mintInfo.value) {
-            throw new Error("Mint account not found – check TOKEN_MINT address");
-        }
+                if (!mintInfo.value) {
+                    throw new Error("Mint account not found – check TOKEN_MINT address");
+                }
 
-        const parsed = mintInfo.value.data.parsed;
-        if (!parsed || parsed.type !== "mint") {
-            throw new Error("Not a valid mint account");
-        }
+                const parsed = mintInfo.value.data.parsed;
+                if (!parsed || parsed.type !== "mint") {
+                    throw new Error("Not a valid mint account");
+                }
 
-        const supplyRaw = parsed.info.supply;
-        const currentSupply = Number(supplyRaw) / (10 ** DECIMALS);
+                const supplyRaw = parsed.info.supply;
+                const currentSupply = Number(supplyRaw) / (10 ** DECIMALS);
 
-        const burnt = INITIAL_SUPPLY - currentSupply;
+                const burnt = INITIAL_SUPPLY - currentSupply;
 
-        if (Math.abs(burnt - previousBurnt) > 0.0001) {
-            previousBurnt = burnt;
+                if (Math.abs(burnt - previousBurnt) > 0.0001) {
+                    previousBurnt = burnt;
 
-            if (burnAmountEl) {
-                burnAmountEl.textContent = burnt.toLocaleString(undefined, {
-                    minimumFractionDigits: 0,
-                    maximumFractionDigits: 2
-                });
+                    if (burnAmountEl) {
+                        burnAmountEl.textContent = burnt.toLocaleString(undefined, {
+                            minimumFractionDigits: 0,
+                            maximumFractionDigits: 2
+                        });
+                    }
+
+                    if (burnStatsEl) {
+                        burnStatsEl.classList.add("updated");
+                        setTimeout(() => burnStatsEl.classList.remove("updated"), 800);
+                    }
+
+                    if (burnt > previousBurnt) {
+                        print(`🔥 Chain update: ${burnt.toLocaleString()} $FARTBURN burnt total!`, "fart");
+                    }
+                }
+            } catch (err) {
+                console.error("Burn fetch failed:", err.message || err);
+                if (burnAmountEl) {
+                    burnAmountEl.textContent = "Fetch Error";
+                }
+                // Optional: show in terminal once
+                if (!window.burnErrorLogged) {
+                    print(`[ERROR] Burn tracker failed: ${err.message || "Unknown RPC issue"} – check console (F12)`, "fart");
+                    window.burnErrorLogged = true;
+                }
             }
-
-            if (burnStatsEl) {
-                burnStatsEl.classList.add("updated");
-                setTimeout(() => burnStatsEl.classList.remove("updated"), 800);
-            }
-
-            if (burnt > previousBurnt) {
-                print(`🔥 Chain update: ${burnt.toLocaleString()} $FARTBURN burnt total!`, "fart");
-            }
         }
-    } catch (err) {
-        console.error("Burn fetch failed:", err.message || err);
-        if (burnAmountEl) {
-            burnAmountEl.textContent = "Fetch Error";
-        }
-        // Optional: show in terminal once
-        if (!window.burnErrorLogged) {
-            print(`[ERROR] Burn tracker failed: ${err.message || "Unknown RPC issue"} – check console (F12)`, "fart");
-            window.burnErrorLogged = true;
-        }
-    }
-}
 
         // Initial fetch + periodic updates
         fetchBurnedAmount();
