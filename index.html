@@ -324,40 +324,41 @@
         }
 
         // Make print async and return a promise that resolves when typing finishes
-        function print(text, className = "", isHTML = false) {
-            return new Promise((resolve) => {
-                const line = document.createElement('div');
-                if (className) line.className = className;
-                output.appendChild(line);
+        // Make print async and return a promise that resolves when typing finishes
+function print(text, className = "", isHTML = false) {
+    return new Promise((resolve) => {
+        const line = document.createElement('div');
+        if (className) line.className = className;
+        output.appendChild(line);
 
-                if (isHTML) {
-                    line.innerHTML = text;
-                    output.scrollTop = output.scrollHeight;
-                    playRandomFart();
-                    resolve();
-                    return;
-                }
-
-                const words = text.split(' ');
-                let i = 0;
-
-                function typeWord() {
-                    if (i < words.length) {
-                        const space = (i > 0 ? ' ' : '');
-                        line.textContent += space + words[i];
-                        output.scrollTop = output.scrollHeight;
-                        playRandomFart();
-                        i++;
-                        setTimeout(typeWord, typingDelay + Math.random() * 40 - 20); // ±20 ms variation
-                    } else {
-                        playRandomFart();
-                        resolve(); // Done typing this line
-                    }
-                }
-
-                typeWord();
-            });
+        if (isHTML) {
+            line.innerHTML = text;
+            output.scrollTop = output.scrollHeight;
+            playRandomFart();
+            resolve();
+            return;
         }
+
+        const words = text.split(' ');
+        let i = 0;
+
+        function typeWord() {
+            if (i < words.length) {
+                const space = (i > 0 ? ' ' : '');
+                line.textContent += space + words[i];
+                output.scrollTop = output.scrollHeight;
+                // Removed playRandomFart() from here to reduce excess
+                i++;
+                setTimeout(typeWord, typingDelay + Math.random() * 40 - 20); // ±20 ms variation
+            } else {
+                playRandomFart(); // Now only plays once at the end of the line
+                resolve(); // Done typing this line
+            }
+        }
+
+        typeWord();
+    });
+}
 
         // Now bootSequence can await each line
         async function bootSequence() {
