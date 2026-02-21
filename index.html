@@ -34,7 +34,7 @@
             color: #00ff00;
             font-family: 'VT323', monospace;
             font-size: 20px;
-            overflow: hidden; /* Restore original to prevent browser scroll */
+            overflow: hidden;
             image-rendering: pixelated;
         }
 
@@ -190,7 +190,6 @@
             50%      { background: rgba(0, 80, 0, 0.95); }
         }
 
-        /* Mobile responsive fixes */
         @media (max-width: 768px) {
             body {
                 font-size: 16px;
@@ -302,7 +301,7 @@
     <script>
         const output = document.getElementById('output');
         const input = document.getElementById('input');
-        let typingDelay = 100;  // default: 100 ms per word (change this to whatever base speed you like)
+        let typingDelay = 100;
 
         const CONTRACT = "Coming Soon!";
 
@@ -323,8 +322,6 @@
             audio.play().catch(() => {}); 
         }
 
-        // Make print async and return a promise that resolves when typing finishes
-        // Make print async and return a promise that resolves when typing finishes
 function print(text, className = "", isHTML = false) {
     return new Promise((resolve) => {
         const line = document.createElement('div');
@@ -347,12 +344,11 @@ function print(text, className = "", isHTML = false) {
                 const space = (i > 0 ? ' ' : '');
                 line.textContent += space + words[i];
                 output.scrollTop = output.scrollHeight;
-                // Removed playRandomFart() from here to reduce excess
                 i++;
-                setTimeout(typeWord, typingDelay + Math.random() * 40 - 20); // ±20 ms variation
+                setTimeout(typeWord, typingDelay + Math.random() * 40 - 20);
             } else {
-                playRandomFart(); // Now only plays once at the end of the line
-                resolve(); // Done typing this line
+                playRandomFart();
+                resolve();
             }
         }
 
@@ -360,9 +356,8 @@ function print(text, className = "", isHTML = false) {
     });
 }
 
-        // Now bootSequence can await each line
         async function bootSequence() {
-            const lineDelay = 400; // ms pause AFTER each line finishes typing
+            const lineDelay = 200;
 
             await print("Microsoft Fart Systems [Version 1.0.42069]");
             await new Promise(r => setTimeout(r, lineDelay));
@@ -391,7 +386,6 @@ function print(text, className = "", isHTML = false) {
             await print("Type 'help' for commands. Press F to fart.");
         }
 
-        // Use async for showBanner too
         async function showBanner() {
             return new Promise((resolve) => {
                 figlet("FARTBURN", { font: "Big" }, async (err, data) => {
@@ -401,7 +395,7 @@ function print(text, className = "", isHTML = false) {
                         return;
                     }
                     const bannerLines = data.split("\n");
-                    const lineDelay = 400; // ms between banner lines
+                    const lineDelay = 400;
                     for (const line of bannerLines) {
                         if (line.trim()) {
                             await print(line);
@@ -438,7 +432,7 @@ function print(text, className = "", isHTML = false) {
 
         const commands = {
             help: async () => {
-                const lineDelay = 400; // ms between lines
+                const lineDelay = 400;
                 await print("======================================");
                 await new Promise(r => setTimeout(r, lineDelay));
                 await print("Available commands:");
@@ -601,7 +595,7 @@ function print(text, className = "", isHTML = false) {
             }
         };
 
-        // Update help to include speed
+
         commands.help = async () => {
             const lineDelay = 400;
             await print("======================================");
@@ -671,18 +665,12 @@ function print(text, className = "", isHTML = false) {
         setTimeout(showBanner, 1000);     
         setTimeout(connectToBot, 2000);    
 
-        // ────────────────────────────────────────────────
-        // Burn Tracker - Fetch from Solana Blockchain
-        // ────────────────────────────────────────────────
-        // CONFIG – CHANGE THESE
-        // ────────────────────────────────────────────────
-        const TOKEN_MINT = "9BB6NFEcjBCtnNLFko2FqVQBq8HHM13kCyYcdQbgpump";  // Confirmed $FARTBURN mint from Solscan/pump.fun
-        const INITIAL_SUPPLY = 1000000000;                          // Standard pump.fun: 1B tokens – confirm on Solscan if different
-        const DECIMALS = 6;                                         // Standard for most pump.fun memes
-        const RPC_ENDPOINT = "https://solana-rpc.publicnode.com";         // ← Reliable free public RPC (Ankr)
+        const TOKEN_MINT = "9BB6NFEcjBCtnNLFko2FqVQBq8HHM13kCyYcdQbgpump";
+        const INITIAL_SUPPLY = 1000000000;
+        const DECIMALS = 6;
+        const RPC_ENDPOINT = "https://solana-rpc.publicnode.com";
         const UPDATE_INTERVAL_MS = 15000;                           // 15 seconds
 
-        // ────────────────────────────────────────────────
         const connection = new solanaWeb3.Connection(RPC_ENDPOINT, "confirmed");
         const mintPubkey = new solanaWeb3.PublicKey(TOKEN_MINT);
 
@@ -693,9 +681,9 @@ function print(text, className = "", isHTML = false) {
 
         async function fetchBurnedAmount() {
             try {
-                console.log("Fetching mint info for:", TOKEN_MINT); // debug
+                console.log("Fetching mint info for:", TOKEN_MINT);
                 const mintInfo = await connection.getParsedAccountInfo(mintPubkey);
-                console.log("Mint response:", mintInfo); // debug – check browser console (F12)
+                console.log("Mint response:", mintInfo);
 
                 if (!mintInfo.value) {
                     throw new Error("Mint account not found – check TOKEN_MINT address");
@@ -735,7 +723,7 @@ function print(text, className = "", isHTML = false) {
                 if (burnAmountEl) {
                     burnAmountEl.textContent = "Fetch Error";
                 }
-                // Optional: show in terminal once
+
                 if (!window.burnErrorLogged) {
                     print(`[ERROR] Burn tracker failed: ${err.message || "Unknown RPC issue"} – check console (F12)`, "fart");
                     window.burnErrorLogged = true;
@@ -743,14 +731,14 @@ function print(text, className = "", isHTML = false) {
             }
         }
 
-        // Initial fetch + periodic updates
+
         fetchBurnedAmount();
         setInterval(fetchBurnedAmount, UPDATE_INTERVAL_MS);
 
-        // Set initial state
+
         if (burnAmountEl) burnAmountEl.textContent = "0";
 
-        // Prevent horizontal overflow on any new line added
+
         const observer = new MutationObserver(() => {
             document.querySelectorAll('#output > div').forEach(el => {
                 el.style.maxWidth = '100%';
