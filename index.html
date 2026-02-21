@@ -46,6 +46,7 @@
             pointer-events: none;
             z-index: 999;
             box-shadow: inset 0 0 80px rgba(0,255,0,0.3);
+            animation: pulse 2s infinite
         }
 
         .terminal {
@@ -135,6 +136,7 @@
         .fart {
             color: #ff00ff;
             animation: shake 0.3s infinite;
+            animation: pulse 2s infinite
         }
 
         @keyframes shake {
@@ -169,6 +171,7 @@
         .burn-stats #burn-amount {
             color: #ff00ff;
             font-size: 26px;
+            animation: pulse 2s infinite
         }
 
         .burn-stats .flame {
@@ -284,7 +287,6 @@
         <div id="burn-stats" class="burn-stats">
             <span class="label">TOTAL BURNT:</span>
             <span id="burn-amount">0</span> $FARTBURN
-            <span class="flame">🔥💨</span>
         </div>
         <div id="output"></div>
         
