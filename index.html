@@ -362,12 +362,12 @@ function print(text, className = "", isHTML = false) {
 
         // Now bootSequence can await each line
         async function bootSequence() {
-            const lineDelay = 600; // ms pause AFTER each line finishes typing
+            const lineDelay = 400; // ms pause AFTER each line finishes typing
 
             await print("Microsoft Fart Systems [Version 1.0.42069]");
             await new Promise(r => setTimeout(r, lineDelay));
 
-            await print("(c) 2024-2026 Fart Corporation. All rights reserved.");
+            await print("(c) 2026 Fartburn. All rights reserved.");
             await new Promise(r => setTimeout(r, lineDelay));
 
             await print("");
@@ -438,7 +438,7 @@ function print(text, className = "", isHTML = false) {
 
         const commands = {
             help: async () => {
-                const lineDelay = 500; // ms between lines
+                const lineDelay = 400; // ms between lines
                 await print("======================================");
                 await new Promise(r => setTimeout(r, lineDelay));
                 await print("Available commands:");
@@ -464,7 +464,7 @@ function print(text, className = "", isHTML = false) {
                 await print("======================================");
             },
             about: async () => {
-                const lineDelay = 500;
+                const lineDelay = 400;
                 await print("======================================");
                 await new Promise(r => setTimeout(r, lineDelay));
                 await print("$Fartburn is a pure meme coin on Solana.");
@@ -480,7 +480,7 @@ function print(text, className = "", isHTML = false) {
                 await print("======================================");
             },
             ca: async () => {
-                const lineDelay = 500;
+                const lineDelay = 400;
                 await print("======================================");
                 await new Promise(r => setTimeout(r, lineDelay));
                 await print("Contract Address: Coming Soon");
@@ -495,7 +495,7 @@ function print(text, className = "", isHTML = false) {
                 await print("======================================");
             },
             roadmap: async () => {
-                const lineDelay = 500;
+                const lineDelay = 400;
                 await print("======================================");
                 await new Promise(r => setTimeout(r, lineDelay));
                 await print("Phase 1: Launch (done)");
@@ -513,7 +513,7 @@ function print(text, className = "", isHTML = false) {
                 await print("======================================");
             },
             socials: async () => {
-                const lineDelay = 500;
+                const lineDelay = 400;
                 await print("======================================");
                 await new Promise(r => setTimeout(r, lineDelay));
                 await print("Twitter   → <a href='https://x.com/Fartburncoin' target='_blank' style='color:#00ff00; text-decoration:underline;'>https://x.com/Fartburncoin</a>", "", true);
@@ -529,7 +529,7 @@ function print(text, className = "", isHTML = false) {
                 await print("======================================");
             },
             team: async () => {
-                const lineDelay = 500;
+                const lineDelay = 400;
                 await print("======================================");
                 await new Promise(r => setTimeout(r, lineDelay));
                 await print("Kryptnotic    → <a href='https://x.com/kryptnoticdev' target='_blank' style='color:#00ff00; text-decoration:underline;'>@KryptnoticDev</a>", "", true);
@@ -551,7 +551,7 @@ function print(text, className = "", isHTML = false) {
                 await print("======================================");
             },
             buy: async () => {
-                const lineDelay = 500;
+                const lineDelay = 400;
                 await print("======================================");
                 await new Promise(r => setTimeout(r, lineDelay));
                 await print("Opening pump.fun in new tab...");
@@ -562,7 +562,7 @@ function print(text, className = "", isHTML = false) {
                 await print("======================================");
             },
             fart: async () => {
-                const lineDelay = 500;
+                const lineDelay = 400;
                 await print("======================================");
                 await new Promise(r => setTimeout(r, lineDelay));
                 await print("💨💨💨💨💨💨💨💨💨💨", "fart");
@@ -574,7 +574,7 @@ function print(text, className = "", isHTML = false) {
                 await print("======================================");
             },
             moon: async () => {
-                const lineDelay = 500;
+                const lineDelay = 400;
                 await print("======================================");
                 await new Promise(r => setTimeout(r, lineDelay));
                 await print("🚀🚀🚀 TO THE MOON 🚀🚀🚀");
@@ -603,7 +603,7 @@ function print(text, className = "", isHTML = false) {
 
         // Update help to include speed
         commands.help = async () => {
-            const lineDelay = 500;
+            const lineDelay = 400;
             await print("======================================");
             await new Promise(r => setTimeout(r, lineDelay));
             await print("Available commands:");
@@ -665,7 +665,7 @@ function print(text, className = "", isHTML = false) {
 
         setTimeout(() => {
             input.focus();
-        }, 500);
+        }, 400);
 
         bootSequence();
         setTimeout(showBanner, 1000);     
