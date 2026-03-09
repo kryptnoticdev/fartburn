@@ -22,7 +22,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@1.95.3/lib/index.iife.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bignumber.js@9.1.2/bignumber.min.js"></script>
 
-    <title>$FARTBURN - BURN TERMINAL</title>
+    <title>Terminal | $FARTBURN</title>
 
     <style>
     @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
@@ -35,7 +35,7 @@
         height: 100%;
         overflow: hidden;
         background: #000;
-        color: #00ff00;
+        color: #40e000c5;
         font-family: 'VT323', monospace;
         font-size: 20px;
         image-rendering: pixelated;
@@ -60,7 +60,7 @@
         height: 100vh;
         box-sizing: border-box;
         padding: 20px;
-        border: 8px solid #00ff00;
+        border: 8px solid #00a00041;
         background: #000;
         display: flex;
         flex-direction: column;
@@ -68,17 +68,17 @@
 
     /* NAVBAR */
     .navbar {
-        background: #00aa00;
+        background: #39c90049;
         color: #000;
-        padding: 75px 12px 30px 12px;
+        padding: 8px 12px;
         display: flex;
         justify-content: space-between;
-        align-items:center;
+        align-items: center;
         flex-wrap: wrap;
         gap: 10px;
         font-size: 24px;
         margin-bottom: 12px;
-        text-shadow: 1px 1px 0 #fff;
+        text-shadow: 1px 1px 0 #48ff0075;
     }
 
     .logo-container {
@@ -119,14 +119,14 @@
         flex-wrap: wrap;
         margin: 0 0 12px 0;
         background: rgba(0,20,0,0.9);
-        border: 2px solid #00ff00;
+        border: 2px solid #39c90049;
         border-radius: 6px;
         padding: 8px 10px;
         font-size: 20px;
         font-weight: bold;
         text-align: center;
-        box-shadow: 0 0 10px rgba(0,255,0,0.4);
-        text-shadow: 0 0 5px #00ff00;
+        box-shadow: 0 0 10px #48ff0049;
+        text-shadow: 0 0 5px #48ff0049;
     }
 
     .burn-stats .label {
@@ -160,7 +160,7 @@
     }
 
     #output::-webkit-scrollbar-thumb {
-        background: #00ff00;
+        background: #39c90049;
     }
 
     /* INPUT PROMPT */
@@ -177,11 +177,11 @@
         flex: 1;
         background: transparent;
         border: none;
-        color: #00ff00;
+        color: #39c90049;
         font-family: 'VT323', monospace;
         font-size: 20px;
         outline: none;
-        caret-color: #00ff00;
+        caret-color: #39c90049;
     }
 
     /* ANIMATIONS */
@@ -276,7 +276,7 @@
         const input = document.getElementById('input');
         let typingDelay = 100;
 
-        const CONTRACT = "3V1TbsjRxNzdDWNctrj7BLwknsZxJvA2R4Ldtxsrpump";
+        const CONTRACT = "COMING SOON";
 
         const fartFiles = [
             "fart1.mp3",
@@ -450,7 +450,7 @@ function print(text, className = "", isHTML = false) {
                 const lineDelay = 400;
                 await print("======================================");
                 await new Promise(r => setTimeout(r, lineDelay));
-                await print("Contract Address: 3V1TbsjRxNzdDWNctrj7BLwknsZxJvA2R4Ldtxsrpump");
+                await print("Contract Address: COMING SOON");
                 await new Promise(r => setTimeout(r, lineDelay));
                 await print(`  ${CONTRACT}`);
                 await new Promise(r => setTimeout(r, lineDelay));
@@ -638,7 +638,7 @@ function print(text, className = "", isHTML = false) {
         setTimeout(showBanner, 1000);     
         setTimeout(connectToBot, 2000);    
 
-        const TOKEN_MINT = "3V1TbsjRxNzdDWNctrj7BLwknsZxJvA2R4Ldtxsrpump";
+        const TOKEN_MINT = "COMING SOON";
         const INITIAL_SUPPLY = 1000000000;
         const DECIMALS = 6;
         const RPC_ENDPOINT = "https://mainnet.helius-rpc.com/?api-key=656e4389-f6c0-4575-a708-5982fd8ee655";
